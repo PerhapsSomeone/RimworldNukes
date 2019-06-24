@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ThingDef Name="FusionWarheadShell" ParentName="ShellBase" Abstract="True">
+    <recipeMaker>
+      <workSpeedStat>SmithingSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <workAmount>1500</workAmount>
+      <targetCountAdjustment>5</targetCountAdjustment>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>15</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>FusionWeaponsResearch</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+
+  <ThingDef ParentName="FusionWarheadShell">
+    <defName>Shell_FusionWarhead</defName>
+    <label>fusion warhead</label>
+    <description>A fusion warhead. Everything in the bomb range will be turned into dust.\nSeriously, this will destroy EVERYTHING.\nEvery living pawn will be burned to a crisp by the extreme radiaton burst.</description>
+    <graphicData>
+      <texPath>Things/FusionWarhead</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <tradeability>Sellable</tradeability>
+    <statBases>
+      <MarketValue>4000</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>60</explosiveRadius>
+        <explosiveDamageType>BombSuper</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.4</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <chanceToStartFire>1</chanceToStartFire>
+        <damageFalloff>true</damageFalloff>
+        <explosionEffect>GiantExplosion</explosionEffect>
+        <explosionSound>Explosion_GiantBomb</explosionSound>
+        <wickTicks>
+          <min>60</min>
+          <max>120</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_FusionWarhead</projectileWhenLoaded>
+    <costList>
+      <Steel>200</Steel>
+      <Uranium>400</Uranium>
+      <Plasteel>40</Plasteel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+      <ComponentSpacer>2</ComponentSpacer>
+      <Shell_AntigrainWarhead>1</Shell_AntigrainWarhead>
+    </costList>
+  </ThingDef>
+  
+  <DamageDef ParentName="Bomb">
+    <defName>BombFusionWarhead</defName>
+    <defaultDamage>10000000</defaultDamage>
+    <defaultStoppingPower>100</defaultStoppingPower>
+    <defaultArmorPenetration>100</defaultArmorPenetration>
+  </DamageDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_FusionWarhead</defName>
+    <label>large nuclear warhead</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellAntigrainWarhead</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Nukes.Projectile_FusionWarheadExplosion</thingClass>
+    <projectile>
+      <damageDef>BombFusionWarhead</damageDef>
+      <speed>41</speed>
+      <explosionRadius>60</explosionRadius>
+      <explosionChanceToStartFire>0.7</explosionChanceToStartFire><!-- ADD EXPLOSION SOUND-->
+      <explosionDamageFalloff>true</explosionDamageFalloff>
+      <explosionEffect>GiantExplosion</explosionEffect>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_GiantBomb</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+</Defs>

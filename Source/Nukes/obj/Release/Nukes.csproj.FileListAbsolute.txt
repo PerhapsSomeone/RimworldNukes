@@ -1,0 +1,4 @@
+/home/marc/.local/share/Steam/steamapps/common/RimWorld/Mods/[1.0] Nukes/Assemblies/Nukes.dll
+/home/marc/.local/share/Steam/steamapps/common/RimWorld/Mods/[1.0] Nukes/Source/Nukes/obj/Release/Nukes.csproj.CoreCompileInputs.cache
+/home/marc/.local/share/Steam/steamapps/common/RimWorld/Mods/[1.0] Nukes/Source/Nukes/obj/Release/Nukes.dll
+/home/marc/.local/share/Steam/steamapps/common/RimWorld/Mods/[1.0] Nukes/Source/Nukes/obj/Release/Nukes.csprojAssemblyReference.cache
