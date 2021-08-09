@@ -1,5 +1,6 @@
 ﻿using System;
 using Verse;
+using Verse.Sound;
 
 namespace Nukes
 {
@@ -68,23 +69,37 @@ namespace Nukes
             ThingDef preExplosionSpawnThingDef = base.def.projectile.preExplosionSpawnThingDef;
             GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, 1, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, base.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, base.def.projectile.preExplosionSpawnChance, base.def.projectile.preExplosionSpawnThingCount, base.def.projectile.explosionChanceToStartFire, base.def.projectile.explosionDamageFalloff);
 
-            foreach (Pawn pawn in map.mapPawns.AllPawns)
+            Settings s = new Settings();
+
+            if(s.customSounds)
             {
-                if (pawn.Dead) 
+                SoundDef sound = SoundDef.Named("GeigercounterSoundEffect");
+                sound.PlayOneShotOnCamera(map);
+            }
+                
+            if (!s.radiationEnabled) return;
+
+            foreach (Pawn pawn in map.mapPawns.AllPawns.ListFullCopy())
+            {
+                if (pawn.Dead)
                 {
                     continue;
                 }
-                try { 
-                    if (position.DistanceTo(pawn.Position) < 10f)
+                try
+                {
+                    if (position.DistanceTo(pawn.Position) < 5f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("LethalRadiationPoisoning"));
-                    } else if(position.DistanceTo(pawn.Position) > 10f && position.DistanceTo(pawn.Position) < 20f)
+                    }
+                    else if (position.DistanceTo(pawn.Position) < 10f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("HeavyRadiationPoisoning"));
-                    } else if (position.DistanceTo(pawn.Position) > 20f && position.DistanceTo(pawn.Position) < 40f)
+                    }
+                    else if (position.DistanceTo(pawn.Position) < 20f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("MediumRadiationPoisoning"));
-                    } else if (position.DistanceTo(pawn.Position) > 40f && position.DistanceTo(pawn.Position) < 45f)
+                    }
+                    else if (position.DistanceTo(pawn.Position) < 30f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("LightRadiationPoisoning"));
                     }

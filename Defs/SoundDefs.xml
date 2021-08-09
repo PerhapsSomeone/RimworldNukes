@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><Defs>
+
+  <SoundDef>
+    <defName>LoudNukeExplosionSound</defName>
+    <eventNames />
+    <maxSimultaneous>99</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera> 
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>NukeExplosion/largeNukeExplosion</clipPath>
+          </li>
+        </grains>
+        <volumeRange>
+          <min>80.0</min>
+          <max>90.1</max>
+        </volumeRange>
+        <pitchRange>
+          <min>0.85</min>
+          <max>1.1</max>
+        </pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>GeigercounterSoundEffect</defName>
+    <eventNames />
+    <maxSimultaneous>99</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera> 
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>NukeExplosion/geigercounter</clipPath>
+          </li>
+        </grains>
+        <volumeRange>
+          <min>80.0</min>
+          <max>90.1</max>
+        </volumeRange>
+        <pitchRange>
+          <min>0.85</min>
+          <max>1.1</max>
+        </pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>FusionExplosionSoundEffect</defName>
+    <eventNames />
+    <maxSimultaneous>99</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera> 
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>NukeExplosion/fusionWarhead</clipPath>
+          </li>
+        </grains>
+        <volumeRange>
+          <min>80.0</min>
+          <max>90.1</max>
+        </volumeRange>
+        <pitchRange>
+          <min>0.85</min>
+          <max>1.1</max>
+        </pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

@@ -3,7 +3,7 @@
 
     <ThingDef Name="FusionWarheadShell" ParentName="ShellBase" Abstract="True">
     <recipeMaker>
-      <workSpeedStat>SmithingSpeed</workSpeedStat>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <effectWorking>Cook</effectWorking>
       <soundWorking>Recipe_Machining</soundWorking>
       <workAmount>1500</workAmount>
@@ -39,7 +39,7 @@
         <explosiveExpandPerStackcount>0.4</explosiveExpandPerStackcount>
         <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
         <chanceToStartFire>1</chanceToStartFire>
-        <damageFalloff>true</damageFalloff>
+        <damageFalloff>false</damageFalloff>
         <explosionEffect>GiantExplosion</explosionEffect>
         <explosionSound>Explosion_GiantBomb</explosionSound>
         <wickTicks>
@@ -62,8 +62,8 @@
   <DamageDef ParentName="Bomb">
     <defName>BombFusionWarhead</defName>
     <defaultDamage>10000000</defaultDamage>
-    <defaultStoppingPower>100</defaultStoppingPower>
-    <defaultArmorPenetration>100</defaultArmorPenetration>
+    <defaultStoppingPower>1000</defaultStoppingPower>
+    <defaultArmorPenetration>1000</defaultArmorPenetration>
   </DamageDef>
 
   <ThingDef ParentName="BaseBullet">

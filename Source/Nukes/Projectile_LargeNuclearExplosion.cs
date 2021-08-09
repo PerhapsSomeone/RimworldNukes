@@ -1,11 +1,13 @@
 ﻿using System;
 using Verse;
+using Verse.Sound;
 
 namespace Nukes
 {
     public class Projectile_LargeNuclearExplosion : Projectile
     {
         private int ticksToDetonation;
+        private Boolean exploding = false;
 
         public override void ExposeData()
         {
@@ -28,22 +30,19 @@ namespace Nukes
 
         protected override void Impact(Thing hitThing)
         {
-            if (def.projectile.explosionDelay == 0)
-            {
-                Explode();
-            }
-            else
-            {
-                landed = true;
-                ticksToDetonation = def.projectile.explosionDelay;
-                GenExplosion.NotifyNearbyPawnsOfDangerousExplosive(this, def.projectile.damageDef, launcher.Faction);
-            }
+            Explode();
         }
 
         protected virtual void Explode()
         {
+            if(exploding)
+            {
+                return;
+            }
+            exploding = true;
+
             Map map = base.Map;
-            Destroy(DestroyMode.Vanish);
+            
             if (base.def.projectile.explosionEffect != null)
             {
                 Effecter effecter = base.def.projectile.explosionEffect.Spawn();
@@ -66,9 +65,23 @@ namespace Nukes
             float postExplosionSpawnChance = base.def.projectile.postExplosionSpawnChance;
             int postExplosionSpawnThingCount = base.def.projectile.postExplosionSpawnThingCount;
             ThingDef preExplosionSpawnThingDef = base.def.projectile.preExplosionSpawnThingDef;
+
+
+
             GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, base.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, base.def.projectile.preExplosionSpawnChance, base.def.projectile.preExplosionSpawnThingCount, base.def.projectile.explosionChanceToStartFire, base.def.projectile.explosionDamageFalloff);
 
-            foreach (Pawn pawn in map.mapPawns.AllPawns)
+
+            Settings s = new Settings();
+
+            if(s.customSounds)
+            {
+                SoundDef sound = SoundDef.Named("LoudNukeExplosionSound");
+                sound.PlayOneShotOnCamera(map);
+            }
+
+            if (!s.radiationEnabled) return;
+
+            foreach (Pawn pawn in map.mapPawns.AllPawns.ListFullCopy())
             {
                 if (pawn.Dead)
                 {
@@ -77,27 +90,33 @@ namespace Nukes
 
                 try
                 {
-                    if (position.DistanceTo(pawn.Position) < 15f)
+                    if (position.DistanceTo(pawn.Position) < 7.5f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("LethalRadiationPoisoning"));
                     }
-                    else if (position.DistanceTo(pawn.Position) < 50f && position.DistanceTo(pawn.Position) > 15f)
+                    else if (position.DistanceTo(pawn.Position) < 25f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("HeavyRadiationPoisoning"));
                     }
-                    else if (position.DistanceTo(pawn.Position) < 70f && position.DistanceTo(pawn.Position) > 50f)
+                    else if (position.DistanceTo(pawn.Position) < 35f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("MediumRadiationPoisoning"));
                     }
                     else
                     {
-                        pawn.health.AddHediff(HediffDef.Named("LightRadiationPoisoning"));
+                        if (s.radiationAirburst)
+                        {
+                            pawn.health.AddHediff(HediffDef.Named("LightRadiationPoisoning"));
+                        }
                     }
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     Log.Message(e.ToString());
                 }
             }
+
+            Destroy(DestroyMode.Vanish);
         }
     }
 }

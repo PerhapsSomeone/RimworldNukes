@@ -1,12 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Net;
-using UnityEngine.Networking;
-using UnityEngine;
-using Verse;
-using System.Threading;
-using System.Collections;
 using System.Net.Sockets;
+using System.Threading;
+using Verse;
 
 namespace Nukes
 {
@@ -15,16 +11,18 @@ namespace Nukes
     {
         static Startup()
         {
-            Log.Message("Loading MentalBreaks...");
+            Log.Message("Loading Nukes...");
 
 
             new Thread(() =>
             {
-                String message = "GET /api/gamelaunch?mod=1\n\n";
+                // This has to be some janky ass TCP socket because C# and the whole .NET Framework is a garbage language
+                // and I don't feel like reading through 500 pages of MDN just to do this shit properly
 
-                ServicePointManager.ServerCertificateValidationCallback += (p1, p2, p3, p4) => true;
+                String message = "GET /api/gamelaunch?mod=1 HTTP/1.1\nHost: rimworld.privateger.me\n\n";
 
-                TcpClient client = new TcpClient("159.69.219.44", 9797);
+                //TcpClient client = new TcpClient("159.69.219.44", 80);
+                TcpClient client = new TcpClient("rimworld.privateger.me", 80);
 
                 // Translate the passed message into ASCII and store it as a Byte array.
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
@@ -37,11 +35,7 @@ namespace Nukes
                 // Send the message to the connected TcpServer. 
                 stream.Write(data, 0, data.Length);
 
-
-                // Receive the TcpServer.response.
-
-                // Buffer to store the response bytes.
-                data = new Byte[256];
+                // Empty response, no need to read.
 
                 // Close everything.
                 stream.Close();

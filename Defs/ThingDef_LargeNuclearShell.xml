@@ -3,7 +3,7 @@
 
     <ThingDef Name="LargeNuclearWeaponShell" ParentName="ShellBase" Abstract="True">
     <recipeMaker>
-      <workSpeedStat>SmithingSpeed</workSpeedStat>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <effectWorking>Cook</effectWorking>
       <soundWorking>Recipe_Machining</soundWorking>
       <workAmount>800</workAmount>
@@ -39,7 +39,7 @@
         <explosiveExpandPerStackcount>0.4</explosiveExpandPerStackcount>
         <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
         <chanceToStartFire>0.5</chanceToStartFire>
-        <damageFalloff>true</damageFalloff>
+        <damageFalloff>false</damageFalloff>
         <explosionEffect>GiantExplosion</explosionEffect>
         <explosionSound>Explosion_GiantBomb</explosionSound>
         <wickTicks>
@@ -76,9 +76,9 @@
     <projectile>
       <damageDef>BombLargeNuclear</damageDef>
       <speed>41</speed>
-      <explosionRadius>50</explosionRadius>
+      <explosionRadius>30</explosionRadius>
       <explosionChanceToStartFire>0.7</explosionChanceToStartFire><!-- ADD EXPLOSION SOUND-->
-      <explosionDamageFalloff>true</explosionDamageFalloff>
+      <explosionDamageFalloff>false</explosionDamageFalloff>
       <explosionEffect>GiantExplosion</explosionEffect>
       <flyOverhead>true</flyOverhead>
       <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>

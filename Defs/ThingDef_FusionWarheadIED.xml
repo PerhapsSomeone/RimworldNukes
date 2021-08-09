@@ -31,7 +31,7 @@
     <designationCategory>Security</designationCategory>
     <building>
       <isTrap>true</isTrap>
-      <trapPeacefulWildAnimalsSpringChanceFactor>0.25</trapPeacefulWildAnimalsSpringChanceFactor>
+      <trapPeacefulWildAnimalsSpringChanceFactor>0</trapPeacefulWildAnimalsSpringChanceFactor>
       <expandHomeArea>false</expandHomeArea>
       <ai_chillDestination>false</ai_chillDestination>
     </building>
@@ -48,12 +48,12 @@
   <ThingDef ParentName="FusionIEDBase">
     <defName>TrapIED_Fusion</defName>
     <label>fusion warhead IED</label>
-    <description>A fusion warhead connected to a touch-activated trigger. Explosion radius of 60 tiles. Rimworld cannot draw that. No radiation is let out during the explosion.\n\nSince it is hidden in the surrounding terrain, it cannot be placed adjacent to other traps. Animals can sense these when calm.</description>
+    <description>A fusion warhead connected to a touch-activated trigger. Explosion radius of 60 tiles. Rimworld cannot draw that, so errors might show.\nNo radiation is let out during the explosion.\n\nBE AWARE: This trap will not cause the terrain deletion of the normal fusion shells.\nSince it is hidden in the surrounding terrain, it cannot be placed adjacent to other traps. Due to the smart trigger, peaceful animals will never trigger these.</description>
     <graphicData>
       <texPath>Things/Building/Security/IEDAntigrainWarhead</texPath>
     </graphicData>
     <costList>
-      <Shell_SmallNuclearWarhead>2</Shell_SmallNuclearWarhead>
+      <Shell_FusionWarhead>1</Shell_FusionWarhead>
     </costList>
     <designationHotKey>Misc10</designationHotKey>
 	<comps>

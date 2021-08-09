@@ -3,7 +3,7 @@
 
   <ThingDef Name="DirtyWeaponShellConstruction" ParentName="ShellBase" Abstract="True">
     <recipeMaker>
-      <workSpeedStat>SmithingSpeed</workSpeedStat>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <effectWorking>Cook</effectWorking>
       <soundWorking>Recipe_Machining</soundWorking>
       <workAmount>1000</workAmount>
@@ -22,9 +22,9 @@
   <ThingDef ParentName="DirtyWeaponShellConstruction">
     <defName>Shell_DirtyNuclearWarhead</defName>
     <label>dirty nuclear warhead</label>
-    <description>A dirty nuclear warhead. It will create an explosion with barely any damage, but with extreme radiation fallout.\n\nThe shown explosion radius shows the radiation radius not explosion radius.</description>
+    <description>A dirty nuclear warhead. It will create an explosion with barely any damage, but with extreme radiation fallout.\n\nThe shown explosion radius shows the radiation radius, not the explosion radius.</description>
     <graphicData>
-      <texPath>Things/Item/Resource/Shell/Shell_Incendiary</texPath>
+      <texPath>Things/DirtyNuke</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <tradeability>Sellable</tradeability>

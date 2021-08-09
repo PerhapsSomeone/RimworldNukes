@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>[1.0] Nukes</name>
+	<name>[1.3] Nukes</name>
 	<author>PrivateGER</author>
-	<supportedVersions><li>1.0</li></supportedVersions>
+	<supportedVersions>
+		<li>1.1</li>
+		<li>1.2</li>
+		<li>1.3</li>
+	</supportedVersions>
+	<modDependencies>
+		<li>
+			<packageId>UnlimitedHugs.HugsLib</packageId>
+			<displayName>HugsLib</displayName>
+			<downloadUrl>https://github.com/UnlimitedHugs/RimworldHugsLib/releases/latest</downloadUrl>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/818773962</steamWorkshopUrl>
+		</li>
+	</modDependencies>
+	<loadAfter>
+		<li>UnlimitedHugs.HugsLib</li>
+	</loadAfter>
+	<packageId>PrivateGER.Nukes.Shells</packageId>
 	<description>
-		This adds four new mortar shells.
+Updated for 1.3!
 
-		- A small nuclear warhead
-		- A dirty nuclear warhead
-		- A large nuclear warhead
-		- A freaking fusion warhead
+This mods adds multiple nuclear weapons.
 
-		Featuring custom research and crafting recipes
+- A small nuclear warhead
+- A dirty nuclear warhead
+- A large nuclear warhead
+- A freaking fusion warhead
 
-		Enjoy.
+There's an IED version of the shells.
+
+Featuring a radiation system, custom sounds, custom research and crafting recipes.
+                
+Requires HugsLib for the settings menu.
+
+Enjoy.
     </description>
 </ModMetaData>

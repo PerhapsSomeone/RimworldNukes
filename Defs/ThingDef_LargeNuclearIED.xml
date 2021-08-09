@@ -53,7 +53,7 @@
       <texPath>Things/Building/Security/IEDAntigrainWarhead</texPath>
     </graphicData>
     <costList>
-      <Shell_SmallNuclearWarhead>2</Shell_SmallNuclearWarhead>
+      <Shell_LargeNuclearWarhead>2</Shell_LargeNuclearWarhead>
     </costList>
     <designationHotKey>Misc10</designationHotKey>
 	<comps>

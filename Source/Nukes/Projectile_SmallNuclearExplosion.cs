@@ -1,5 +1,4 @@
 ﻿using System;
-using RimWorld;
 using Verse;
 
 namespace Nukes
@@ -44,7 +43,7 @@ namespace Nukes
         protected virtual void Explode()
         {
             Map map = base.Map;
-            Destroy(DestroyMode.Vanish);
+
             if (base.def.projectile.explosionEffect != null)
             {
                 Effecter effecter = base.def.projectile.explosionEffect.Spawn();
@@ -69,18 +68,24 @@ namespace Nukes
             ThingDef preExplosionSpawnThingDef = base.def.projectile.preExplosionSpawnThingDef;
             GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, base.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, base.def.projectile.preExplosionSpawnChance, base.def.projectile.preExplosionSpawnThingCount, base.def.projectile.explosionChanceToStartFire, base.def.projectile.explosionDamageFalloff);
 
-            foreach (Pawn pawn in map.mapPawns.AllPawns)
+            Settings s = new Settings();
+
+            if (!s.radiationEnabled) return;
+
+            foreach (Pawn pawn in map.mapPawns.AllPawns.ListFullCopy())
             {
                 if (pawn.Dead)
                 {
                     continue;
                 }
+
                 try {
-                    if (position.DistanceTo(pawn.Position) < 5f)
+                    if (position.DistanceTo(pawn.Position) < 2.5f * s.radiationLevel)
                     {
                         pawn.health.AddHediff(HediffDef.Named("HeavyRadiationPoisoning"));
                     }
-                    else if (position.DistanceTo(pawn.Position) < 20f && position.DistanceTo(pawn.Position) > 5f) {
+                    else if (position.DistanceTo(pawn.Position) < 10f * s.radiationLevel)
+                    {
                         pawn.health.AddHediff(HediffDef.Named("MediumRadiationPoisoning"));
                     }
                 }
@@ -89,6 +94,8 @@ namespace Nukes
                     Log.Message(e.ToString());
                 }
             }
+
+            Destroy(DestroyMode.Vanish);
         }
     }
 }

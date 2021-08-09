@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using Verse;
-using RimWorld;
+using UnityEngine;
+using System.Collections.Generic;
+using Verse.Sound;
 
 namespace Nukes
 {
     public class Projectile_FusionWarheadExplosion : Projectile
     {
         private int ticksToDetonation;
+        private int explosionCount = 0;
+        private int explosionsMax = 10;
 
         public override void ExposeData()
         {
@@ -44,8 +47,21 @@ namespace Nukes
 
         protected virtual void Explode()
         {
+            Settings s = new Settings();
+            if (explosionCount > explosionsMax)
+            {
+                return;
+            }
+            explosionCount++;
+
             Map map = base.Map;
-            Destroy(DestroyMode.Vanish);
+
+            if (s.customSounds)
+            {
+                SoundDef sound = SoundDef.Named("FusionExplosionSoundEffect");
+                sound.PlayOneShotOnCamera(map);
+            }
+
             if (base.def.projectile.explosionEffect != null)
             {
                 Effecter effecter = base.def.projectile.explosionEffect.Spawn();
@@ -69,42 +85,52 @@ namespace Nukes
             int postExplosionSpawnThingCount = base.def.projectile.postExplosionSpawnThingCount;
             ThingDef preExplosionSpawnThingDef = base.def.projectile.preExplosionSpawnThingDef;
 
-            foreach (Pawn pawn in map.mapPawns.AllPawns)
-            {
-                if (pawn.Dead)
-                {
-                    continue;
-                }
 
-                try
+            if (s.radiationEnabled && explosionCount == 1)
+            {
+                foreach (Pawn pawn in map.mapPawns.AllPawns.ListFullCopy())
                 {
-                    if (position.DistanceTo(pawn.Position) <= explosionRadius)
+                    if (pawn.Dead)
                     {
-                        pawn.health.AddHediff(HediffDef.Named("LethalRadiationPoisoning"));
+                        continue;
                     }
-                }
-                catch (Exception e)
-                {
-                    Log.Message(e.ToString());
-                    continue;
+
+                    try
+                    {
+                        if (position.DistanceTo(pawn.Position) <= explosionRadius)
+                        {
+                            pawn.health.AddHediff(HediffDef.Named("LethalRadiationPoisoning"));
+                        }
+                        else if (s.radiationAirburst)
+                        {
+                            pawn.health.AddHediff(HediffDef.Named("LightRadiationPosisoning"));
+                        }
+                    }
+                    catch (Exception e) { }
                 }
             }
 
-            IEnumerable<IntVec3> radius = GenRadial.RadialCellsAround(position, explosionRadius, true);
 
-            for (int i = 0; i < 3; i++)
+
+            if (explosionCount == 1)
             {
-                foreach (IntVec3 pos in radius)
+                IEnumerable<IntVec3> radius = GenRadial.RadialCellsAround(position, explosionRadius, true);
+                foreach(IntVec3 pos in radius)
                 {
-                    IEnumerable<Thing> thingsToDestroy = map.thingGrid.ThingsAt(pos);
-                    foreach (Thing thingToDestroy in thingsToDestroy)
+                    var destroyableThings = map.thingGrid.ThingsAt(pos);
+                    foreach (Thing destroy in destroyableThings)
                     {
-                        thingToDestroy.Destroy();
+                        destroy.Destroy(DestroyMode.Vanish);
                     }
                 }
             }
 
-            GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, base.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, base.def.projectile.preExplosionSpawnChance, base.def.projectile.preExplosionSpawnThingCount, base.def.projectile.explosionChanceToStartFire, base.def.projectile.explosionDamageFalloff);
+            for (int i = 0; i < 3; i++) GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, base.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, base.def.projectile.preExplosionSpawnChance, base.def.projectile.preExplosionSpawnThingCount, base.def.projectile.explosionChanceToStartFire, base.def.projectile.explosionDamageFalloff);
+
+            if(explosionCount > explosionsMax)
+            {
+                Destroy(DestroyMode.Vanish);
+            }
         }
     }
 }
